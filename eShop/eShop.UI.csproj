@@ -14,7 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\js\Admin\" />
+    <Content Update="Pages\Admin\_AdminLayout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Pages\Admin\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>
