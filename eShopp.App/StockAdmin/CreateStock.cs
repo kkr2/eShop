@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShop.App.StockAdmin.CreateStock
+namespace eShop.App.StockAdmin
 {
     public class CreateStock
     {
@@ -33,23 +33,23 @@ namespace eShop.App.StockAdmin.CreateStock
         }
 
 
+        public class Request
+        {
+            public int ProductId { get; set; }
+            public string Description { get; set; }
+            public int Qty { get; set; }
 
+        }
+
+        public class Response
+        {
+            public int Id { get; set; }
+            public string Description { get; set; }
+            public int Qty { get; set; }
+        }
 
     }
 
-    public class Request
-    {
-        public int ProductId { get; set; }
-        public string Description { get; set; }
-        public int Qty { get; set; }
-        
-    }
-
-    public class Response
-    {
-        public int Id { get; set; }
-        public string Description { get; set; }
-        public int Qty { get; set; }
-    }
+    
 
 }

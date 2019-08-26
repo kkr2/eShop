@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShop.App.StockAdmin.DeleteStock
+namespace eShop.App.StockAdmin
 {
-    class DeleteStock
+    public class DeleteStock
     {
 
 

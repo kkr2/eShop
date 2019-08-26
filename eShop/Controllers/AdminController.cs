@@ -1,8 +1,8 @@
 ﻿using eShop.App.ProductsAdmin;
+using eShop.App.StockAdmin;
 using eShop.Database;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,10 +12,12 @@ namespace eShop.UI.Controllers
     public class AdminController : Controller
     {
         private ApplicationDbContext _ctx;
+
         public AdminController(ApplicationDbContext ctx)
         {
             _ctx = ctx;
         }
+
         [HttpGet("products")]
         public IActionResult GetProducts() => Ok(new GetProducts(_ctx).Do());
 
@@ -30,6 +32,19 @@ namespace eShop.UI.Controllers
 
         [HttpPut("products")]
         public async Task<IActionResult> UpdateProduct([FromBody]UpdateProduct.Request request) => Ok(await new UpdateProduct(_ctx).Do(request));
+
+
+        [HttpGet("stocks")]
+        public IActionResult GetStocks() => Ok(new GetStocks(_ctx).Do());
+        
+        [HttpPost("stocks")]
+        public async Task<IActionResult> CreateStock([FromBody]CreateStock.Request request) => Ok(await new CreateStock(_ctx).Do(request));
+
+        [HttpDelete("stocks/{id}")]
+        public async Task<IActionResult> DeleteStocks(int id) => Ok((await new DeleteStock(_ctx).Do(id)));
+
+        [HttpPut("stocks")]
+        public async Task<IActionResult> UpdateStocks([FromBody]UpdateStock.Request request) => Ok(await new UpdateStock(_ctx).Do(request));
 
 
     }

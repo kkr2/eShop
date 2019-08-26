@@ -6,9 +6,9 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace eShop.App.StockAdmin.UpdateStock
+namespace eShop.App.StockAdmin
 {
-    class UpdateStock
+    public class UpdateStock
     {
         ApplicationDbContext _ctx;
         public UpdateStock(ApplicationDbContext ctx)
@@ -40,27 +40,27 @@ namespace eShop.App.StockAdmin.UpdateStock
         }
 
 
+        public class StockViewModel
+        {
+            public int Id { get; set; }
+            public int ProductId { get; set; }
+            public string Description { get; set; }
+            public int Qty { get; set; }
+        }
 
+        public class Request
+        {
+            public IEnumerable<StockViewModel> Stock { get; set; }
+
+        }
+
+        public class Response
+        {
+            public IEnumerable<StockViewModel> Stock { get; set; }
+        }
 
     }
 
-    public class StockViewModel
-    {
-        public int Id { get; set; }
-        public int ProductId { get; set; }
-        public string Description { get; set; }
-        public int Qty { get; set; }
-    }
-
-    public class Request
-    {
-        public IEnumerable<StockViewModel> Stock { get; set; }
-
-    }
-
-    public class Response
-    {
-        public IEnumerable<StockViewModel> Stock { get; set; }
-    }
+   
 
 }
