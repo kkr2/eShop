@@ -18,7 +18,7 @@ namespace eShop.UI.Pages
             _ctx = ctx;
         }
 
-        public GetCart.Response Cart { get; set; }
+        public IEnumerable<GetCart.Response> Cart { get; set; }
         public IActionResult OnGet()
         {
             Cart = new GetCart(HttpContext.Session, _ctx).Do();

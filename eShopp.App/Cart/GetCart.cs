@@ -29,25 +29,30 @@ namespace eShop.App.Cart
             public int Qty { get; set; }
         }
 
-        public Response Do()
+        public IEnumerable<Response> Do()
         {
 
             var stringObj = _session.GetString("cart");
 
-            var cartProduct = JsonConvert.DeserializeObject<CartProduct>(stringObj);
+            if (string.IsNullOrEmpty(stringObj))
+            {
+                return new List<Response>();
+            }
+
+            var cartList = JsonConvert.DeserializeObject<List<CartProduct>>(stringObj);
 
             var response = _ctx.stocks
-                .Include(c => c.Product)
-                .Where(x => x.Id == cartProduct.StockId)
+                .Include(x => x.Product)
+                .Where(x => cartList.Any(y=>y.StockId==x.Id))
                 .Select(x => new Response
                 {
                     Name = x.Product.name,
                     Value = x.Product.Value.ToString("N2"),
                     StockId=x.Id,
-                    Qty = cartProduct.Qty
+                    Qty = cartList.FirstOrDefault(y=>y.StockId==x.Id).Qty
 
                 })
-                .FirstOrDefault();
+                .ToList();
             
 
             return response;

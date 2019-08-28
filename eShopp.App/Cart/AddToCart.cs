@@ -25,12 +25,30 @@ namespace eShop.App.Cart
 
         public void Do(Request request)
         {
-            var cartProduct = new CartProduct
+            var cartList = new List<CartProduct>();
+            var stringObj = _session.GetString("cart");
+
+            if (!string.IsNullOrEmpty(stringObj))
             {
-                StockId = request.StockId,
-                Qty = request.Qty
-            };
-            var stringObj = JsonConvert.SerializeObject(cartProduct);
+                cartList=JsonConvert.DeserializeObject<List<CartProduct>>(stringObj);
+            }
+
+            if (cartList.Any(x => x.StockId == request.StockId))
+            {
+                cartList.Find(x => x.StockId == request.StockId).Qty += request.Qty;
+            }
+            else
+            {
+                cartList.Add(new CartProduct
+                {
+                    StockId = request.StockId,
+                    Qty = request.Qty
+                });
+            }
+
+
+           
+             stringObj = JsonConvert.SerializeObject(cartList);
 
 
             _session.SetString("cart", stringObj);
