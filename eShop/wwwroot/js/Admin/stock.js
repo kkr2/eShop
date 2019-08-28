@@ -35,10 +35,32 @@
                 .catch(err => console.log(err))
         },
         updateStock() {
+            var vm = this.selectedProduct.stock.map(x => {
+                return {
+                    Id: x.id,
+                    Description: x.description,
+                    Qty: x.qty,
+                    ProductId: this.selectedProduct.id
+                }
+            })
+            axios.put("/Admin/stocks", {
+                stock: vm
+            })
 
+                .then(res => {
+                    
+                    
+                    this.selectedProduct.stock.splice(index, 1);
+                })
+                .catch(err => console.log(err))
         },
-        deleteStock() {
-
+        deleteStock(id,index) {
+            axios.delete("/Admin/stocks/"+id)
+                .then(res => {
+                    
+                    this.selectedProduct.stock.splice(index,1);
+                })
+                .catch(err => console.log(err))
         }
     }
 })
