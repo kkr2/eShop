@@ -45,7 +45,7 @@ namespace eShop.App.Cart
                     Qty = request.Qty
                 });
             }
-
+            
 
            
              stringObj = JsonConvert.SerializeObject(cartList);

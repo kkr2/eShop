@@ -2,24 +2,26 @@
 @model eShop.UI.Pages.ProductModel
 @{
 }
+<div>
+    <p>@Model.Product.name</p>
+    <p>@Model.Product.Description</p>
+    <p>@Model.Product.Value</p>
+
     <div>
-        <p>@Model.Product.name</p>
-        <p>@Model.Product.Description</p>
-        <p>@Model.Product.Value</p>
-
-        <div>
-            <form method="post">
-                <label>Stock</label>
-                <select asp-for="CartViewModel.StockId">
-                    @foreach (var x in Model.Product.Stock)
-                    {
-                        <option value="@x.Id">@x.Description</option>
-                    }
-                </select>
-                <label>Qty:</label>
-                <input asp-for="CartViewModel.Qty" />
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-
+        <form method="post">
+            <label>Stock</label>
+            <select asp-for="CartViewModel.StockId">
+                @foreach (var x in Model.Product.Stock)
+                {
+                    <option value="@x.Id">@x.Description</option>
+                }
+            </select>
+            <label>Qty:</label>
+            <input asp-for="CartViewModel.Qty" />
+            <button type="submit">Submit</button>
+        </form>
     </div>
+
+</div>
+
+@await Component.InvokeAsync("Card")
