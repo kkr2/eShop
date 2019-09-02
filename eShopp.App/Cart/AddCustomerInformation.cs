@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using eShop.Domain.Models;
 
 namespace eShop.App.Cart
 {
@@ -39,14 +40,28 @@ namespace eShop.App.Cart
             public string PostCode { get; set; }
         }
 
-        public void Do(Request request)
-        {
+        public void Do(Request request) {
+
+            var customerInformation = new CustomerInformation
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                PhoneNumber = request.PhoneNumber,
+                Address1 = request.Address1,
+                Address2 = request.Address2,
+                City = request.City,
+                PostCode = request.PostCode
+            };
+
+
+            var stringObj = JsonConvert.SerializeObject(customerInformation);
+
            
 
-           var stringObj = JsonConvert.SerializeObject(request);
 
 
-            _session.SetString("customer-info", stringObj);
+          _session.SetString("customer-info", stringObj);
         }
     }
 }
