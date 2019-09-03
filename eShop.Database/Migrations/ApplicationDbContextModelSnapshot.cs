@@ -31,26 +31,38 @@ namespace eShop.Database.Migrations
 
                     b.Property<string>("City");
 
+                    b.Property<string>("Email");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
                     b.Property<string>("OrderRef");
 
+                    b.Property<string>("PhoneNumber");
+
                     b.Property<string>("PostCode");
+
+                    b.Property<string>("StripeReference");
 
                     b.HasKey("Id");
 
                     b.ToTable("orders");
                 });
 
-            modelBuilder.Entity("eShop.Domain.Models.OrderProduct", b =>
+            modelBuilder.Entity("eShop.Domain.Models.OrderStock", b =>
                 {
-                    b.Property<int>("ProductId");
+                    b.Property<int>("StockId");
 
                     b.Property<int>("OrderId");
 
-                    b.HasKey("ProductId", "OrderId");
+                    b.Property<int>("Qty");
+
+                    b.HasKey("StockId", "OrderId");
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("orderproducts");
+                    b.ToTable("OrderStocks");
                 });
 
             modelBuilder.Entity("eShop.Domain.Models.Product", b =>
@@ -250,16 +262,16 @@ namespace eShop.Database.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("eShop.Domain.Models.OrderProduct", b =>
+            modelBuilder.Entity("eShop.Domain.Models.OrderStock", b =>
                 {
                     b.HasOne("eShop.Domain.Models.Order", "Order")
-                        .WithMany("OrderProducts")
+                        .WithMany("OrderStocks")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("eShop.Domain.Models.Product", "Product")
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("eShop.Domain.Models.Stock", "Stock")
+                        .WithMany("OrderStocks")
+                        .HasForeignKey("StockId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

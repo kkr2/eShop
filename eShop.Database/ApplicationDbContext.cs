@@ -14,13 +14,15 @@ namespace eShop.Database
         public DbSet<Product> products { get; set; }
         public DbSet<Order> orders { get; set; }
         public DbSet<Stock> stocks { get; set; }
-        public DbSet<OrderProduct> orderproducts { get; set; }
+        public DbSet<OrderStock> OrderStocks{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<OrderProduct>()
-              .HasKey(a => new { a.ProductId, a.OrderId });
+            builder.Entity<OrderStock>()
+                .HasKey(a => new {a.StockId, a.OrderId});
+
+
         }
 
     }

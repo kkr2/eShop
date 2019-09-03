@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using eShop.App.Cart;
+using eShop.App.Orders;
 using eShop.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -38,7 +39,7 @@ namespace eShop.UI.Pages.Checkout
             return Page();
         }
 
-        public IActionResult OnPost(string stripeEmail, string stripeToken)
+        public async Task<IActionResult> OnPost(string stripeEmail, string stripeToken)
         {
             var customers = new CustomerService();
             var charges = new ChargeService();
@@ -57,6 +58,26 @@ namespace eShop.UI.Pages.Checkout
                 Description = "Purchase",
                 Currency = "usd",
                 CustomerId = customer.Id
+            });
+
+
+            await new CreateOrder(_ctx).Do(new CreateOrder.Request
+            {
+
+                StripeReference=charge.Id,
+                FirstName = CartOrder.CustomerInformation.FirstName,
+                LastName = CartOrder.CustomerInformation.LastName,
+                Email = CartOrder.CustomerInformation.Email,
+                PhoneNumber = CartOrder.CustomerInformation.PhoneNumber,
+                Address1 = CartOrder.CustomerInformation.Address1,
+                Address2 = CartOrder.CustomerInformation.Address2,
+                City = CartOrder.CustomerInformation.City,
+                PostCode = CartOrder.CustomerInformation.PostCode,
+                Stocks=CartOrder.Products.Select(x=> new CreateOrder.Stock
+                {
+                    StockId=x.StockId,
+                    Qty=x.Qty
+                }).ToList()
             });
 
 
