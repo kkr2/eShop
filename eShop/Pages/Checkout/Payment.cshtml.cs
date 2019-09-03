@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Stripe;
+using GetOrder = eShop.App.Cart.GetOrder;
 
 namespace eShop.UI.Pages.Checkout
 {
