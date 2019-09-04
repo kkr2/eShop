@@ -20,7 +20,7 @@ namespace eShop.App.Orders
         public class Request
         {
             public string StripeReference { get; set; }
-
+            public string Session { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
             public string Email { get; set; }
@@ -39,6 +39,11 @@ namespace eShop.App.Orders
         }
         public async Task<bool> Do(Request request)
         {
+
+            var stockOnHolds = _ctx.StockOnHolds.Where(x => x.Session==request.Session).ToList();
+
+
+            _ctx.StockOnHolds.RemoveRange(stockOnHolds);
 
             var order = new Order
             {

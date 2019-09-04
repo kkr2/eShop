@@ -61,11 +61,13 @@ namespace eShop.UI.Pages.Checkout
                 CustomerId = customer.Id
             });
 
+            var sessionId = HttpContext.Session.Id;
 
             await new CreateOrder(_ctx).Do(new CreateOrder.Request
             {
 
                 StripeReference=charge.Id,
+                Session=sessionId,
                 FirstName = CartOrder.CustomerInformation.FirstName,
                 LastName = CartOrder.CustomerInformation.LastName,
                 Email = CartOrder.CustomerInformation.Email,

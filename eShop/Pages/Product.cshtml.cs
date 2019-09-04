@@ -26,9 +26,9 @@ namespace eShop.UI.Pages
 
         public GetProduct.ProductViewModel Product { get; set; }
 
-        public IActionResult OnGet(string name)
+        public async Task<IActionResult> OnGet(string name)
         {
-            Product = new GetProduct(_cnt).Do(name.Replace("-"," "));
+            Product = await new GetProduct(_cnt).Do(name.Replace("-"," "));
 
             if (Product == null)
             {
@@ -40,11 +40,13 @@ namespace eShop.UI.Pages
             }
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
-            new AddToCart(HttpContext.Session).Do(CartViewModel);
-
-            return RedirectToPage("Cart");
+           var res = await new AddToCart(HttpContext.Session,_cnt).Do(CartViewModel);
+           if (res)
+               return RedirectToPage("Cart");
+           else
+               return Page();
         }
     }
 }

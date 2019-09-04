@@ -15,6 +15,7 @@ namespace eShop.Database
         public DbSet<Order> orders { get; set; }
         public DbSet<Stock> stocks { get; set; }
         public DbSet<OrderStock> OrderStocks{ get; set; }
+        public DbSet<StockOnHold> StockOnHolds { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

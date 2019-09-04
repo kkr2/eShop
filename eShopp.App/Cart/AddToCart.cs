@@ -6,15 +6,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using eShop.Database;
 
 namespace eShop.App.Cart
 {
     public class AddToCart
     {
         private ISession _session;
-        public AddToCart(ISession session)
+        private ApplicationDbContext _ctx;
+
+        public AddToCart(ISession session, ApplicationDbContext ctx)    
         {
             _session = session;
+            _ctx = ctx;
         }
 
         public class Request
@@ -23,8 +27,33 @@ namespace eShop.App.Cart
             public int Qty { get; set; }
         }
 
-        public void Do(Request request)
+        public async Task<bool> Do(Request request)
         {
+            var stockOnHold = _ctx.StockOnHolds.Where(x => x.Session==_session.Id).ToList();
+            var stockToHold = _ctx.stocks.Where(x => x.Id == request.StockId).FirstOrDefault();
+            if (stockToHold.Qty < request.Qty)
+            {
+                return false;
+            }
+
+            _ctx.StockOnHolds.Add(new StockOnHold
+            {
+                StockId = stockToHold.Id,
+                Session=_session.Id,
+                Qty = request.Qty,
+                ExpiryDate = DateTime.Now.AddMinutes(20)
+            });
+
+            stockToHold.Qty = stockToHold.Qty - request.Qty;
+
+
+            foreach (var stock in stockOnHold)
+            {
+                stock.ExpiryDate = DateTime.Now.AddMinutes(20);
+            }
+
+            await _ctx.SaveChangesAsync();
+
             var cartList = new List<CartProduct>();
             var stringObj = _session.GetString("cart");
 
@@ -52,6 +81,7 @@ namespace eShop.App.Cart
 
 
             _session.SetString("cart", stringObj);
+            return true;
         }
 
     }

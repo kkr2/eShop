@@ -16,23 +16,44 @@ namespace eShop.App.Products
             _context = context;
         }
 
-        public ProductViewModel Do(string name) =>
-         _context.products
-            .Include(x=>x.Stock)
-            .Where(x => x.name == name)
-            .Select(a => new ProductViewModel
-         {
-             name = a.name,
-             Description = a.Description,
-             Value = a.Value.ToString("N2"),
-            Stock= a.Stock.Select(y=> new StockViewModel
+        public async Task<ProductViewModel> Do(string name)
+        {
+
+            var stocksOnHold = _context.StockOnHolds.Where(x => x.ExpiryDate < DateTime.Now).ToList();
+
+            if (stocksOnHold.Count > 0)
             {
-                Id=y.Id,
-                Description=y.Description,
-                InStock=y.Qty > 0
-            })
-         })
-            .FirstOrDefault();
+                var stockToReturn = _context.stocks.Where(x => stocksOnHold.Any(y => y.StockId == x.Id)).ToList();
+                foreach (var stock in stockToReturn)
+                {
+                    stock.Qty = stock.Qty + stocksOnHold.FirstOrDefault(x => x.StockId == stock.Id).Qty;
+                }
+
+                _context.StockOnHolds.RemoveRange(stocksOnHold);
+                await _context.SaveChangesAsync();
+            }
+
+
+
+
+           return _context.products
+                .Include(x => x.Stock)
+                .Where(x => x.name == name)
+                .Select(a => new ProductViewModel
+                {
+                    name = a.name,
+                    Description = a.Description,
+                    Value = a.Value.ToString("N2"),
+                    Stock = a.Stock.Select(y => new StockViewModel
+                    {
+                        Id = y.Id,
+                        Description = y.Description,
+                        InStock = y.Qty > 0
+                    })
+                })
+                .FirstOrDefault();
+        }
+
         public class ProductViewModel
         {
             public string name { get; set; }
