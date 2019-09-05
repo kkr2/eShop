@@ -5,17 +5,42 @@
 }
 
 
-<div>
-    @{
-        foreach (var i in Model.Products)
-        {
+<div class="section">
+    <div class="columns is-multiline is-mobile">
+        @{
+            for (int j = 0; j < 5; j++)
+            {
+                foreach (var i in Model.Products)
+                {
+                    <div class="column is-3-desktop is-4-tablet is-6-mobile">
+                                <a asp-page="Product" asp-route-name="@i.name.Replace(" ", "-")">
+                                    <div class="card" >
+                                        <div class="card-image">
+                                            <figure class="image is-4by3">
 
-            <a asp-page="Product" asp-route-name="@i.name.Replace(" ","-")">
-                @i.name - @i.Description - @i.Value
-            </a>
-            <br />
+                                                <img src="~/images/merc.jpg" />
+                                            </figure>
+                                        </div>
+                                        <div class="card-content">
+                                            <p class="title is-6">
+                                                @i.name- @i.Description
+                                            </p>
+                                            <p class="subtitle">
+                                                @i.Value
+                                            </p>
+
+                                            <div class="content">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                    </div>
+
+                }
+            }
         }
-    }
+    </div>
 </div>
 
 @await Component.InvokeAsync("Card")
