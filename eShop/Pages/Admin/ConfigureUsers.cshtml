@@ -1,0 +1,21 @@
+﻿@page
+@model eShop.UI.Pages.Admin.ConfigureUsersModel
+@{
+    ViewData["Title"] = "ConfigureUsers";
+}
+
+<h2>ConfigureUsers</h2>
+
+<div id="app" class="container">
+
+    <input v-model="username" />
+    <button @@click="createUser()">Create</button>
+
+</div>
+
+
+
+@section scripts {
+
+    <script src="~/js/Admin/user.js"></script>
+}

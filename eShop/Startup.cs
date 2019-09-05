@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eShop.App.UsersAdmin;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,7 +40,11 @@ namespace eShop
 
             services
                 .AddMvc()
-                .AddRazorPagesOptions(options => { options.Conventions.AuthorizeFolder("/Admin"); })
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizeFolder("/Admin");
+                    options.Conventions.AuthorizePage("/Admin/ConfigureUsers", "Admin");
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["DefaultConnection"], b => b.MigrationsAssembly("eShop.Database")));
             services.AddIdentity<IdentityUser,IdentityRole>(options =>
@@ -67,6 +72,9 @@ namespace eShop
                 options.Cookie.MaxAge = TimeSpan.FromMinutes(20);
             });
             StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
+
+
+            services.AddTransient<CreateUser>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
