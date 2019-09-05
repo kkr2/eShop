@@ -14,7 +14,7 @@
     },
     methods: {
         getStock() {
-            axios.get("/Admin/stocks")
+            axios.get("/stocks")
                 .then(res => {
 
                     this.products = res.data;
@@ -26,7 +26,7 @@
             this.newStock.ProductId = product.id;
         },
         addStock() {
-            axios.post("/Admin/stocks", this.newStock)
+            axios.post("/stocks", this.newStock)
                 .then(res => {
                     console.log(res);
                     sel = this.selectedProduct
@@ -43,7 +43,7 @@
                     ProductId: this.selectedProduct.id
                 }
             })
-            axios.put("/Admin/stocks", {
+            axios.put("/stocks", {
                 stock: vm
             })
 
@@ -55,7 +55,7 @@
                 .catch(err => console.log(err))
         },
         deleteStock(id,index) {
-            axios.delete("/Admin/stocks/"+id)
+            axios.delete("/stocks/"+id)
                 .then(res => {
                     
                     this.selectedProduct.stock.splice(index,1);
