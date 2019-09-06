@@ -23,31 +23,57 @@
                         </main>
                         <footer>
                             <form method="post">
-                                
-                                <div class="field">
 
-                                    <label class="label">Size</label>
 
-                                    <p class="control">
-                                        <div class="select">
-                                            <select asp-for="CartViewModel.StockId">
-                                                @foreach (var x in Model.Product.Stock)
-                                                {
-                                                    <option value="@x.Id">@x.Description</option>
-                                                }
-                                            </select>
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Size</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field is-narrow">
+                                            <div class="control">
+                                                <div class="select is-fullwidth">
+                                                    <select asp-for="CartViewModel.StockId">
+                                                        @foreach (var x in Model.Product.Stock)
+                                                        {
+                                                            <option value="@x.Id">@x.Description</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </p>
+                                    </div>
                                 </div>
-                                
-                                
-                                
+
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        <label class="label">Qty</label>
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field is-narrow">
+                                            <div class="control">
+                                                <input class="control" asp-for="CartViewModel.Qty" value="1"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 
+                                <div class="field is-horizontal">
+                                    <div class="field-label is-normal">
+                                        
+                                    </div>
+                                    <div class="field-body">
+                                        <div class="field is-narrow">
+                                            <div class="control">
+                                                <button class="button is-success" type="submit">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 
-                                <label>Qty:</label>
-                                <input asp-for="CartViewModel.Qty"/>
-                                <button type="submit">Submit</button>
+
                             </form>
                         </footer>
                     </section>

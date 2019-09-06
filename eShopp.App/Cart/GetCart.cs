@@ -25,6 +25,7 @@ namespace eShop.App.Cart
         {
             public string Name { get; set; }
             public string Value { get; set; }
+            public decimal RealValue { get; set; }
             public int StockId { get; set; }
             public int Qty { get; set; }
         }
@@ -48,6 +49,7 @@ namespace eShop.App.Cart
                 {
                     Name = x.Product.name,
                     Value = x.Product.Value.ToString("N2"),
+                    RealValue=x.Product.Value,
                     StockId=x.Id,
                     Qty = cartList.FirstOrDefault(y=>y.StockId==x.Id).Qty
 
