@@ -33,6 +33,32 @@
 
                                             </div>
                                         </div>
+                                        @{
+                                            string cssclass = "";
+                                            string msg = "";
+
+
+                                            @if (i.LowStock == 0)
+                                            {
+                                                cssclass = "is-danger";
+                                                msg = "Out of Stock";
+                                            }
+                                            else if(i.LowStock<=10)
+                                            {
+                                                cssclass = "is-warning";
+                                                msg = "Low of Stock";
+                                            }
+
+                                        }
+                                        
+                                        @if (i.LowStock <= 10)
+                                        {
+                                            <div class="notification is-paddingless has-text-centered @cssclass">
+                                                @msg
+                                            </div>
+                                        }
+                                        
+
                                     </div>
                                 </a>
                     </div>
