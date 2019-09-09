@@ -20,6 +20,8 @@ namespace eShop.App.Orders
 
         public class Response
         {
+            public int Id { get; set; }
+            public string StripeReference { get; set; }
             public string OrderRef { get; set; }
             public string FirstName { get; set; }
             public string LastName { get; set; }
@@ -31,7 +33,7 @@ namespace eShop.App.Orders
             public string PostCode { get; set; }
 
             public IEnumerable<Product> Products { get; set; }
-            public string TotalValue { get; set; }
+            //public string TotalValue { get; set; }
         }
 
         public class Product
@@ -43,17 +45,18 @@ namespace eShop.App.Orders
             public string StockDescription { get; set; }
         }
 
-        public Response Do(string reference)
-        {
-           return _ctx.orders
-                .Where(x=>x.OrderRef==reference)
+        public Response Do(int id )
+        {//x=>x.OrderRef==reference
+            return _ctx.orders
+                .Where(x=>x.Id==id)
                 .Include(x=>x.OrderStocks)
                 .ThenInclude(x=>x.Stock)
                 .ThenInclude(x=>x.Product)
                 .Select(x=> new Response
                 {
+                    Id=x.Id,
                     OrderRef = x.OrderRef,
-                    
+                    StripeReference=x.StripeReference,
 
                     FirstName = x.FirstName,
                     LastName = x.LastName,
@@ -72,7 +75,7 @@ namespace eShop.App.Orders
                         Qty=y.Qty,
                         StockDescription=y.Stock.Description
                     }),
-                    TotalValue=x.OrderStocks.Sum(y=>y.Stock.Product.Value).ToString("N2")
+                   // TotalValue=x.OrderStocks.Sum(y=>y.Stock.Product.Value).ToString("N2")
                 }).FirstOrDefault();
         }
     }

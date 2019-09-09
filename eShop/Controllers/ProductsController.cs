@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
 using System.Threading.Tasks;
 using eShop.App.ProductsAdmin;
 using eShop.Database;
@@ -11,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace eShop.UI.Controllers
 {
     [Route("[controller]")]
-    [Authorize(Policy = "Manager")]
+   [Authorize(Policy = "Manager")]
     public class ProductsController: Controller
     {
         private ApplicationDbContext _ctx;

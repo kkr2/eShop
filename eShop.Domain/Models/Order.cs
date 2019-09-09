@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
+
 namespace eShop.Domain.Models
 {
     public class Order
@@ -22,6 +23,8 @@ namespace eShop.Domain.Models
         public string Address2 { get; set; }
         public string City { get; set; }
         public string PostCode { get; set; }
+
+        public int Status{ get; set; }
 
         public ICollection<OrderStock> OrderStocks { get; set; }
 

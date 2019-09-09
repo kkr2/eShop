@@ -59,6 +59,7 @@ namespace eShop.App.Orders
                 Address2 = request.Address2,
                 City = request.City,
                 PostCode = request.PostCode,
+                Status=0,
 
                 OrderStocks = request.Stocks.Select(x=> new OrderStock
                 {
